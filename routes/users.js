@@ -11,36 +11,49 @@ const EmailTemplate = require('email-templates').EmailTemplate,
     path = require('path'),
     Promise = require('bluebird');
 
-    const transporter = nodemailer.createTransport({
-        host: 'simplelotto.ng',
-        auth: {
-            user: 'admins@simplelotto.ng',
-            pass: 'T@~U&DoF(&bP'
-        },
-        secure: true,
-        port: 465,
-        tls: {
-            rejectUnauthorized: false
-           }
-    });
-    
-    sendMail = (cb) => {
-        return transporter.sendMail(cb);
+// const transporter = nodemailer.createTransport({
+//     host: 'simplelotto.ng',
+//     auth: {
+//         user: 'admins@simplelotto.ng',
+//         pass: 'T@~U&DoF(&bP'
+//     },
+//     secure: true,
+//     port: 465,
+//     tls: {
+//         rejectUnauthorized: false
+//        }
+// });
+
+const transporter = nodemailer.createTransport({
+    host: 'smtp.mailgun.org',
+    auth: {
+        user: 'postmaster@sandboxfb12dfaad54a4ad48f328bd8eb9ee113.mailgun.org',
+        pass: 'e055db2356fd68b24ab2fe4968b46923-4a62b8e8-894dbccd'
+    },
+    secure: true,
+    port: 587,
+    tls: {
+        rejectUnauthorized: false
     }
-    
-    sendTemplate = (templateName, contexts) => {
-     let template = new EmailTemplate(path.join(__dirname, 'templates', templateName));
-     return Promise.all(contexts.map((context) => {
+});
+
+sendMail = (cb) => {
+    return transporter.sendMail(cb);
+}
+
+sendTemplate = (templateName, contexts) => {
+    let template = new EmailTemplate(path.join(__dirname, 'templates', templateName));
+    return Promise.all(contexts.map((context) => {
         return new Promise((resolve, reject) => {
             template.render(context, (err, result) => {
-                if(err) reject(err);
+                if (err) reject(err);
                 else resolve({
                     email: result,
                     context,
                 });
             })
         });
-     }));
+    }));
 }
 
 
@@ -86,7 +99,7 @@ router.post('/register', (req, res) => {
                         res.json({ success: true, msg: "User Registration Successfull" });
 
                         if (req.body.email !== undefined) {
-                        
+
 
                             sendTemplate('welcome', user_mail_info).then((results) => {
                                 // console.log(JSON.stringify(results, null, 4));
@@ -121,8 +134,8 @@ router.post('/reset', (req, res) => {
     }];
     User.updateUserPwd(email, new_pwd, (callback) => {
         if (callback) {
-            res.json({success: true, msg: 'A new password has been sent to your e-mail address'});
-      
+            res.json({ success: true, msg: 'A new password has been sent to your e-mail address' });
+
             sendTemplate('resetPassword', pwdReset).then((results) => {
                 // console.log(JSON.stringify(results, null, 4));
                 return Promise.all(results.map((result) => {
@@ -139,7 +152,7 @@ router.post('/reset', (req, res) => {
             });
 
         } else {
-            res.json({success: false, msg: 'Invalid e-mail address'});
+            res.json({ success: false, msg: 'Invalid e-mail address' });
         }
     });
 });
@@ -149,21 +162,21 @@ router.post('/resetWithSms', (req, res) => {
     new_pwd = req.body.new_pwd;
     User.updateUserPwdWithSms(mobile_no, new_pwd, (callback) => {
         if (callback) {
-            res.json({success: true, msg: 'A new password has been sent to your mobile number'});
+            res.json({ success: true, msg: 'A new password has been sent to your mobile number' });
             const url = `http://api.ebulksms.com:8080/sendsms?username=management@simplelotto.ng&apikey=8521a8fc22fa85a013f63e724086420447b7b907&sender=Simplelotto&messagetext=Your%20new%20simplelotto%20password%20is%20${new_pwd}&flash=0&recipients=${mobile_no}`;
             const getData = async url => {
                 try {
-                  const response = await fetch(url);
-                  const json = await response.json();
-                //   console.log(json);
+                    const response = await fetch(url);
+                    const json = await response.json();
+                    //   console.log(json);
                 } catch (error) {
-                //    console.log(error);
+                    //    console.log(error);
                 }
-              };
-              
-              getData(url);
+            };
+
+            getData(url);
         } else {
-            res.json({success: false, msg: 'Invalid phone number'});
+            res.json({ success: false, msg: 'Invalid phone number' });
         }
     }, error => {
         console.log(error);
@@ -244,7 +257,7 @@ router.post('/authenticateWithPhoneNumber', (req, res) => {
 router.get('/profile', passport.authenticate('jwt', { session: false }), (req, res) => {
     // console.log('HEADER AUTHORIZATION: ' + req.headers.authorization);
     // console.log('USER INFO: ' + req.user);
-     res.json({ user: req.user });
+    res.json({ user: req.user });
 });
 
 //  UPDATE USER PROFILE
@@ -294,10 +307,10 @@ router.patch('/reset', (req, res) => {
     };
     User.updateUserPwd(resetData.username, resetData.new_pwd, (cb) => {
         if (!cb) {
-            res.json({success: false, msg: "Ooops! we couldn\t reset your password!"})
+            res.json({ success: false, msg: "Ooops! we couldn\t reset your password!" })
         } else {
             // send the email here.
-            res.json({success: true, msg: "Check E-mail address for your new password"});
+            res.json({ success: true, msg: "Check E-mail address for your new password" });
         }
     });
 });
@@ -310,10 +323,10 @@ router.patch('/resetWithSms', (req, res) => {
     };
     User.updateUserPwdWithSms(resetData.username, resetData.new_pwd, (cb) => {
         if (!cb) {
-            res.json({success: false, msg: "Ooops! we couldn\t reset your password!"})
+            res.json({ success: false, msg: "Ooops! we couldn\t reset your password!" })
         } else {
             // send the sms here.
-            res.json({success: true, msg: "Your new password has been sent to your phone!"});
+            res.json({ success: true, msg: "Your new password has been sent to your phone!" });
         }
     });
 });
@@ -416,9 +429,9 @@ router.post('/creditUser', (req, res) => {
     credit_amt = req.body.credit_amt;
     User.CreditBonus(user_id, credit_amt, (success) => {
         if (success) {
-            res.json({msg: "User has been credited!"});
+            res.json({ msg: "User has been credited!" });
         } else {
-            res.json({msg: 'Error: Unable to credit user!'});
+            res.json({ msg: 'Error: Unable to credit user!' });
             // console.log(UserDetails);
         }
     });
