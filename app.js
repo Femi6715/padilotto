@@ -83,7 +83,7 @@ app.use('/admin', admin);
 app.use('/transfer', transfer);
 
 app.get('/', (req, res) => {
-    res.send('Invalid Endpoint');
+    res.send('Welcome to SIMPLE LOTTO api');
     console.log('there is a hit');
 });
 
