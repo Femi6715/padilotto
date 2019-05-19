@@ -2,7 +2,7 @@
   "name": "angular-coupon",
   "version": "0.0.0",
   "scripts": {
-    "ng": "ng",
+    "start": "node app",
     "serve": "node app",
     "watch": "nodemon app"
   },
