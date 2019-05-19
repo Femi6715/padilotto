@@ -58,7 +58,7 @@ app.use(cors());
 app.use(helmet());
 
 //set static folder
-app.use(express.static(path.join(__dirname, 'public_html')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // body parse middleware
 app.use(bodyParser.json());
