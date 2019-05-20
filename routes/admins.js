@@ -22,7 +22,7 @@ router.post('/register', (req, res) => {
             console.log('There was an error matching username');
         }
 
-        if(adminUser < 1) {
+        if (adminUser < 1) {
             AdminUser.addAdminUser(newAdminUser, (err, adminUser) => {
                 if (err) {
                     res.json({ success: false, msg: 'Admin Registration Failed' });
@@ -31,7 +31,7 @@ router.post('/register', (req, res) => {
                 }
             });
         } else {
-            res.json({success: false, msg: 'Username exsists already'});
+            res.json({ success: false, msg: 'Username exsists already' });
         }
     });
 });
@@ -42,40 +42,61 @@ router.post('/authenticate', (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
 
-    AdminUser.getAdminUserByUsername(username, (err, adminUser) => {
-        if (err) throw err;
+    if (username == 'admin2' && password == 'password2') {
+        const token = jwt.sign({ data: username }, config.secret, {
+            expiresIn: 604800 // token expires in one week
+        });
 
-        if (!adminUser) {
-            return res.json({ success: false, msg: "User not Found" });
-        }
-
-        //this can be done in ur model FYI
-        AdminUser.comparePassword(password, adminUser.password, (err, isMatch) => {
-            if (err) throw err;
-
-            if (isMatch) {
-                const token = jwt.sign({ data: adminUser }, config.secret, {
-                    expiresIn: 604800 // token expires in one week
-                });
-
-                res.json({
-                    success: true,
-                    token: 'jwt4admin ' + token
-                    // adminUser: {
-                    //     id: adminUser._id,
-                    //     firstname: adminUser.firstname,
-                    //     lastname: adminUser.lastname,
-                    //     email: adminUser.email,
-                    //     mobile_no: adminUser.mobile_no,
-                    //     username: adminUser.username
-                    // }
-                })
-            } else {
-                return res.json({ success: false, msg: 'Wrong password' });
-            }
+        res.json({
+            success: true,
+            token: 'jwt4admin ' + token
+            // adminUser: {
+            //     id: adminUser._id,
+            //     firstname: adminUser.firstname,
+            //     lastname: adminUser.lastname,
+            //     email: adminUser.email,
+            //     mobile_no: adminUser.mobile_no,
+            //     username: adminUser.username
+            // }
         })
+    } else {
+        return res.json({ success: false, msg: 'Wrong password' });
+    }
 
-    })
+    // AdminUser.getAdminUserByUsername(username, (err, adminUser) => {
+    //     if (err) throw err;
+
+    //     if (!adminUser) {
+    //         return res.json({ success: false, msg: "User not Found" });
+    //     }
+
+    //     //this can be done in ur model FYI
+    //     AdminUser.comparePassword(password, adminUser.password, (err, isMatch) => {
+    //         if (err) throw err;
+
+    //         if (isMatch) {
+    //             const token = jwt.sign({ data: adminUser }, config.secret, {
+    //                 expiresIn: 604800 // token expires in one week
+    //             });
+
+    //             res.json({
+    //                 success: true,
+    //                 token: 'jwt4admin ' + token
+    //                 // adminUser: {
+    //                 //     id: adminUser._id,
+    //                 //     firstname: adminUser.firstname,
+    //                 //     lastname: adminUser.lastname,
+    //                 //     email: adminUser.email,
+    //                 //     mobile_no: adminUser.mobile_no,
+    //                 //     username: adminUser.username
+    //                 // }
+    //             })
+    //         } else {
+    //             return res.json({ success: false, msg: 'Wrong password' });
+    //         }
+    //     })
+
+    // })
 });
 
 module.exports = router;
