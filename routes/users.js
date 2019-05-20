@@ -11,34 +11,23 @@ const EmailTemplate = require('email-templates').EmailTemplate,
     path = require('path'),
     Promise = require('bluebird');
 
-// const transporter = nodemailer.createTransport({
-//     host: 'simplelotto.ng',
-//     auth: {
-//         user: 'admins@simplelotto.ng',
-//         pass: 'T@~U&DoF(&bP'
-//     },
-//     secure: true,
-//     port: 465,
-//     tls: {
-//         rejectUnauthorized: false
-//        }
-// });
-
 const transporter = nodemailer.createTransport({
-    host: 'smtp.mailgun.org',
+    host: 'simplelotto.ng',
     auth: {
-        user: 'postmaster@sandboxfb12dfaad54a4ad48f328bd8eb9ee113.mailgun.org',
-        pass: 'e055db2356fd68b24ab2fe4968b46923-4a62b8e8-894dbccd'
+        user: 'admins@simplelotto.ng',
+        pass: 'T@~U&DoF(&bP'
     },
     secure: true,
-    port: 587,
+    port: 465,
     tls: {
         rejectUnauthorized: false
     }
 });
 
-sendMail = (cb) => {
-    return transporter.sendMail(cb);
+sendMail = async (cb) => {
+    return await transporter.sendMail(cb, function (res) {
+        console.log(res);
+    });
 }
 
 sendTemplate = (templateName, contexts) => {
@@ -106,7 +95,7 @@ router.post('/register', (req, res) => {
                                 return Promise.all(results.map((result) => {
                                     sendMail({
                                         from: 'welcome@simplelotto.ng',
-                                        to: result.context.email,
+                                        to: newUser.email,
                                         subject: 'Simplelotto Welcome Email',
                                         html: result.email.html,
                                         text: result.email.text,

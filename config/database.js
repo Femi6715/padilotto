@@ -1,4 +1,4 @@
 module.exports = {
-    database: "mongodb://simplelotto:simplelotto123@mongodb-2506-0.cloudclusters.net:10011/simplelotto?authSource=admin",
+    database: "mongodb://simplelottoadmin:adminsimplelotto@mongodb-2534-0.cloudclusters.net:10013/simplelotto?authSource=admin",
     secret: "whatismysecret"
 }
