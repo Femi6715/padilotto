@@ -18,13 +18,12 @@ router.get('/all', (req, res) => {
   });
 });
 
-router.get('/today', (req, res) => {
-  const currentDay = new Date(new Date().getTime());
-  const day = currentDay.getDate();
-  const month = currentDay.getMonth() + 1;
-  const year = currentDay.getFullYear();
-  let todaysDate = `${day}-${month}-${year}`;
-  todaysDate = '27-5-2019';
+router.get('/today/:date/:month/:year', (req, res) => {
+  const date = req.params.date;
+  const month = req.params.month;
+  const year = req.params.year;
+
+  const todaysDate = `${date}-${month}-${year}`;
 
   Game.find({ draw_date: todaysDate }, (err, result) => {
     if (err) {
