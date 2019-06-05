@@ -28,6 +28,7 @@ mongoose.connection.on('error', err => {
 
 const app = express();
 
+app.use(cors());
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -53,8 +54,6 @@ const tickets = require('./routes/tickets');
 const port = process.env.PORT || 8080;
 
 // const port = 3000;
-
-app.use(cors());
 
 app.use(helmet());
 
