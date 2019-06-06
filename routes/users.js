@@ -204,6 +204,8 @@ router.post('/authenticate', (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
 
+  console.log('testing', username, password);
+
   User.getUserByUsername(username, (err, user) => {
     if (err) throw err;
 
