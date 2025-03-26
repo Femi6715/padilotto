@@ -20,6 +20,7 @@ router.post('/cashOut', (req, res) => {
     }
   })
     .then(response => {
+      console.log('withdraw money', response);
       if (response.status) {
         //  console.log(response.data);
         newAcctBalance = {
@@ -35,8 +36,12 @@ router.post('/cashOut', (req, res) => {
       }
     })
     .catch(error => {
-      // console.log(error);
-      res.send({ success: false, msg: 'Failed! something went wrong' });
+      console.log(error);
+      res.send({
+        success: false,
+        msg: 'Failed! something went wrong in cashout',
+        data: error
+      });
     });
 });
 

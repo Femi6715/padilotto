@@ -122,113 +122,7 @@ const startOfTheMonth = moment()
 const endOfTheMonthReversed = moment()
   .endOf('month')
   .format('D-M-YYYY');
-
-let monthEndShuffleMachine = () => {
-  MongoClient.connect(
-    config.database,
-    { useNewUrlParser: true },
-    (err, client) => {
-      if (err) {
-        return console.log('Unable to connect to mongodb database');
-      } else {
-        const db = client.db('simplelotto');
-        db.collection('games')
-          .countDocuments({
-            time_stamp: {
-              $gte: new Date(`${startOfTheMonth} 00:00:00.000Z`),
-              $lt: new Date(`${endOfTheMonth} 00:00:00.000Z`)
-            }
-          })
-          .then(count => {
-            this.totalCount = count - 1;
-            db.collection('games')
-              .find(
-                {
-                  time_stamp: {
-                    $gte: new Date(`${startOfTheMonth} 00:00:00.000Z`),
-                    $lt: new Date(`${endOfTheMonth} 00:00:00.000Z`)
-                  }
-                },
-                { skip: this.totalCount }
-              )
-              .toArray()
-              .then(docs => {
-                const obj = Object.keys(docs);
-                item = obj[Math.floor(Math.random() * obj.length)];
-
-                db.collection('games')
-                  .findOneAndUpdate(
-                    {
-                      _id: docs[item]._id
-                    },
-                    {
-                      $set: {
-                        ticket_status: 'won'
-                      }
-                    },
-                    { new: true }
-                  )
-                  .then(
-                    result => {
-                      db.collection('users').findOne(
-                        { _id: ObjectID(docs[item].user_id) },
-                        function(err, winner_info) {
-                          if (err) throw err;
-                          const winnerBalance = winner_info.main_balance;
-                          const winnerId = winner_info._id;
-                          let amount_won = parseInt(
-                            docs[item].potential_winning,
-                            10
-                          );
-                          let new_balance = winnerBalance + amount_won;
-
-                          db.collection('users')
-                            .findOneAndUpdate(
-                              {
-                                _id: winnerId
-                              },
-                              {
-                                $set: {
-                                  main_balance: new_balance
-                                }
-                              },
-                              { new: true }
-                            )
-                            .then(
-                              result => {},
-                              status_err => {
-                                console.log(
-                                  `TICKET STATUS UPDATE FAILED: ${status_err}`
-                                );
-                              }
-                            );
-                        },
-                        status_err => {
-                          console.log(
-                            `TICKET STATUS UPDATE FAILED: ${status_err}`
-                          );
-                        }
-                      );
-                    },
-                    err => {
-                      console.log(`UNABLE TO FETCH GAME ${err}`);
-                    }
-                  );
-              })
-              .catch(err =>
-                console.log('ERROR: could not fetch at this time' + err)
-              );
-          })
-          .catch(error => console.log('error - maybe there are no games'));
-      }
-    }
-  );
-};
-
-if (todaysDate == endOfTheMonthReversed) {
-  monthEndShuffleMachine();
-}
-
+  
 let detailsDetector = (id, callback) => {
   const firstDrawDay = drawTimer(parseInt(id, 10), 'D');
   const firstDrawMonth = drawTimer(parseInt(id, 10), 'M');
@@ -366,9 +260,9 @@ let num_of_winners = (num, stake_amt) => {
   }
 };
 
-num_of_winners(8, 25);
-num_of_winners(2, 50);
-num_of_winners(2, 100);
+num_of_winners(0, 25);
+num_of_winners(0, 50);
+num_of_winners(0, 100);
 
 if (shuffleDates !== undefined) {
   for (let eachShuffleDate of shuffleDates) {
