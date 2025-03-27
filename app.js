@@ -309,6 +309,13 @@ if (shuffleDates !== undefined) {
   }
 }
 
+app.use(cors({
+  origin: 'http://localhost:4200'  // Adjust as needed or use '*' for all origins
+}));
+
+// Your other middleware and routes
+app.use('/users', require('./routes/users'));
+
 const PORT = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log('Server running on port ' + port);
