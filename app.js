@@ -317,10 +317,10 @@ app.use(cors({
   origin: 'http://localhost:4200'  // Adjust as needed or use '*' for all origins
 }));
 
-// Your other middleware and routes
-app.use('/users', require('./routes/users'));
+// // Your other middleware and routes
+// app.use('/users', require('./routes/users'));
 
-const PORT = process.env.PORT || 3000;
+// const PORT = process.env.PORT || 3000;
 
 
 app.listen(port, () => {
