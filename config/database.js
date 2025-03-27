@@ -6,12 +6,12 @@ module.exports = {
 }
 
 
-mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('MongoDB connected'))
-  .catch(err => console.error('MongoDB connection error:', err));
+// mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+//   .then(() => console.log('MongoDB connected'))
+//   .catch(err => console.error('MongoDB connection error:', err));
 
-// Option 1: Export only mongoose
-//module.exports = mongoose;
+// // Option 1: Export only mongoose
+// //module.exports = mongoose;
 
-// Option 2: Export an object containing mongoose and other config values
-module.exports = { mongoose, secret: 'yourSuperSecretKey' };
+// // Option 2: Export an object containing mongoose and other config values
+// module.exports = { mongoose, secret: 'yourSuperSecretKey' };
