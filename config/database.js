@@ -12,8 +12,10 @@ mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
 
 // Define a secret for JWT signing and verification.
 // You can set this using an environment variable JWT_SECRET in production.
-const config = {
-  secret: process.env.JWT_SECRET || 'whatismysecret'
+// config/config.js
+module.exports = {
+  secret: 'whatismysecret' // Replace with your actual secret
 };
+
 
 module.exports = { mongoose, config };
