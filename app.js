@@ -310,7 +310,7 @@ if (shuffleDates !== undefined) {
 }
 
 
-const app = express();
+
 
 // Enable CORS for all routes or specify the allowed origin
 app.use(cors({
