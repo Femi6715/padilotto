@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
 
-//const mongoURI = process.env.MONGO_URI || 'mongodb+srv://admin:62221085@padi.rfdah5x.mongodb.net/padi?retryWrites=true&w=majority&appName=padi';
-const mongoURI = process.env.MONGO_URI ||  'mongodb+srv://admin:62221085@padi.rfdah5x.mongodb.net/padi?retryWrites=true&w=majority&appName=padi';
+module.exports = {
+    database: "mongodb+srv://admin:62221085@padi.rfdah5x.mongodb.net/padi?retryWrites=true",
+    secret: "yourSuperSecretKey"
+}
 
 
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
