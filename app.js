@@ -9,6 +9,8 @@ const cron = require('node-cron');
 const moment = require('moment');
 const helmet = require('helmet');
 
+require('dotenv').config();
+
 require('./config/passport');
 // const { ObjectID } = require('mongodb');
 const MongoClient = require('mongodb').MongoClient;
@@ -52,9 +54,9 @@ const transfer = require('./routes/transfer_recipients');
 
 const tickets = require('./routes/tickets');
 
-const port = process.env.PORT || 8080;
+//const port = process.env.PORT || 8080;
 
-// const port = 3000;
+const port = 3000;
 
 app.use(helmet());
 
@@ -323,6 +325,4 @@ app.use(cors({
 // const PORT = process.env.PORT || 3000;
 
 
-app.listen(port, () => {
-  console.log('Server running on port ' + port);
-});
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
