@@ -6,9 +6,9 @@ module.exports = {
 }
 
 
-mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('MongoDB connected'))
-  .catch(err => console.error('MongoDB connection error:', err));
+// mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+//   .then(() => console.log('MongoDB connected'))
+//   .catch(err => console.error('MongoDB connection error:', err));
 
 // // // Option 1: Export only mongoose
 // // //module.exports = mongoose;
