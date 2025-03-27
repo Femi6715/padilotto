@@ -10,12 +10,4 @@ mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.error('MongoDB connection error:', err));
 
-// Define a secret for JWT signing and verification.
-// You can set this using an environment variable JWT_SECRET in production.
-// config/config.js
-module.exports = {
-  secret: 'whatismysecret' // Replace with your actual secret
-};
-
-
-// module.exports = { mongoose, config };
+module.exports = mongoose;
