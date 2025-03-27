@@ -18,4 +18,4 @@ module.exports = {
 };
 
 
-module.exports = { mongoose, config };
+// module.exports = { mongoose, config };
