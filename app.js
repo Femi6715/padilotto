@@ -309,6 +309,11 @@ if (shuffleDates !== undefined) {
   }
 }
 
+const express = require('express');
+const cors = require('cors');
+const app = express();
+
+// Enable CORS for all routes or specify the allowed origin
 app.use(cors({
   origin: 'http://localhost:4200'  // Adjust as needed or use '*' for all origins
 }));
@@ -317,6 +322,8 @@ app.use(cors({
 app.use('/users', require('./routes/users'));
 
 const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
 app.listen(port, () => {
   console.log('Server running on port ' + port);
 });
