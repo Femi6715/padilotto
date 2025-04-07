@@ -54,9 +54,9 @@ const transfer = require('./routes/transfer_recipients');
 
 const tickets = require('./routes/tickets');
 
-//const port = process.env.PORT || 8080;
+const port = process.env.PORT || 8080;
 
-const port = 3000;
+// const port = 3000;
 
 app.use(helmet());
 
