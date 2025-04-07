@@ -87,7 +87,7 @@ app.use('/tickets', tickets);
 app.use('/transfer', transfer);
 
 app.get('/', (req, res) => {
-  res.send('Welcome to SIMPLE LOTTO api');
+  res.send('Welcome to PADI LOTTO api');
   console.log('there is a hit');
 });
 
