@@ -9,6 +9,8 @@ const cron = require('node-cron');
 const moment = require('moment');
 const helmet = require('helmet');
 
+require('dotenv').config();
+
 require('./config/passport');
 // const { ObjectID } = require('mongodb');
 const MongoClient = require('mongodb').MongoClient;
@@ -85,7 +87,7 @@ app.use('/tickets', tickets);
 app.use('/transfer', transfer);
 
 app.get('/', (req, res) => {
-  res.send('Welcome to SIMPLE LOTTO api');
+  res.send('Welcome to PADI LOTTO api');
   console.log('there is a hit');
 });
 
@@ -308,6 +310,20 @@ if (shuffleDates !== undefined) {
     }
   }
 }
+
+
+
+
+// // Enable CORS for all routes or specify the allowed origin
+// app.use(cors({
+//   origin: 'http://localhost:4200'  // Adjust as needed or use '*' for all origins
+// }));
+
+// // // Your other middleware and routes
+// // app.use('/users', require('./routes/users'));
+
+// // const PORT = process.env.PORT || 3000;
+
 
 app.listen(port, () => {
   console.log('Server running on port ' + port);
