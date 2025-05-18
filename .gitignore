@@ -1,5 +1,34 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
+# Dependencies
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+logs
+*.log
+
+# Build
+dist/
+build/
+
 # compiled output
 /dist
 /tmp
@@ -29,11 +58,5 @@
 /connect.lock
 /coverage
 /libpeerconnection.log
-npm-debug.log
-yarn-error.log
 testem.log
 /typings
-
-# System Files
-.DS_Store
-Thumbs.db

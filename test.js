@@ -10,11 +10,11 @@ async function main() {
 
     // create reusable transporter object using the default SMTP transport
     let transporter = nodemailer.createTransport({
-        host: "simplelotto.ng",
+        host: "padilotto.ng",
         port: 465,
         secure: true, // true for 465, false for other ports
         auth: {
-            user: 'admins@simplelotto.ng', // generated ethereal user
+            user: 'admins@padilotto.ng', // generated ethereal user
             pass: 'T@~U&DoF(&bP' // generated ethereal password
         },
         tls: {

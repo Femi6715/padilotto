@@ -1,4 +1,15 @@
 module.exports = {
-    database: "mongodb://simplelotto:SimpleSimple@19911986@mysql-26241-0.cloudclusters.net:10013/simplelotto?authSource=admin",
-    secret: "whatismysecret"
+    database: {
+        host: 'localhost',
+        user: 'root',
+        password: '62221085',
+        database: 'simplelotto',
+        pool: {
+            max: 5,
+            min: 0,
+            acquire: 30000,
+            idle: 10000
+        }
+    },
+    secret: "yourSuperSecretKey"
 }
