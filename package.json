@@ -2,14 +2,15 @@
   "name": "angular-coupon",
   "version": "0.0.0",
   "scripts": {
-    "start": "node app",
-    "serve": "node app",
-    "watch": "nodemon app"
+    "start": "node server.js",
+    "serve": "node server.js",
+    "watch": "nodemon server.js",
+    "init-db": "node config/init-db.js"
   },
   "private": true,
   "dependencies": {
     "axios": "^0.18.0",
-    "bcryptjs": "*",
+    "bcryptjs": "^3.0.2",
     "bluebird": "^3.5.4",
     "body-parser": "*",
     "core-js": "2.5.4",
@@ -26,6 +27,7 @@
     "mongodb": "^3.1.11",
     "mongodb-cron": "1.4.0",
     "mongoose": "*",
+    "mysql2": "^3.14.1",
     "nexmo": "2.4.1",
     "ng2-date-countdown": "1.0.2",
     "ng4-loading-spinner": "1.2.3",
@@ -45,6 +47,7 @@
     "request": "2.88.0",
     "rxjs": "6.3.3",
     "rxjs-compat": "6.3.3",
+    "sequelize": "^6.37.7",
     "socket.io": "2.2.0",
     "zone.js": "~0.8.26"
   },
