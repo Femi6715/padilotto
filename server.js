@@ -5,8 +5,19 @@ const config = require('./config/database');
 const mysql = require('mysql2/promise');
 const path = require('path');
 
-// Create MySQL connection pool
+// Create MySQL connection pool with error handling
 const pool = mysql.createPool(config.database);
+
+// Test database connection
+pool.getConnection()
+  .then(connection => {
+    console.log('Database connected successfully');
+    connection.release();
+  })
+  .catch(err => {
+    console.error('Error connecting to the database:', err);
+    process.exit(1);
+  });
 
 // Import routes using the existing files
 const adminRoutes = require('./routes/admin');
@@ -24,7 +35,7 @@ const app = express();
 // Middleware
 app.use(express.json());
 app.use(cors({
-  origin: NODE_ENV === 'production' 
+  origin: process.env.NODE_ENV === 'production' 
     ? ['https://your-frontend-domain.com'] // Replace with your actual frontend domain
     : ['http://localhost:4200'],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
