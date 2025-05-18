@@ -3,10 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "start": "node server.js",
-    "serve": "node server.js",
-    "watch": "nodemon server.js",
-    "init-db": "node config/init-db.js",
-    "heroku-postbuild": "npm install --legacy-peer-deps"
+    "heroku-prebuild": "npm install --legacy-peer-deps"
   },
   "private": true,
   "engines": {
