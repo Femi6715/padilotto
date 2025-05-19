@@ -282,37 +282,6 @@ app.get('/users/:id', async (req, res) => {
   }
 });
 
-// Check transaction status endpoint
-app.post('/transactions/checkTransaction', async (req, res) => {
-  try {
-    const { id } = req.body;
-    console.log('Checking transaction status for user:', id);
-    
-    const connection = await pool.getConnection();
-    
-    // Check if user exists and has no pending transactions
-    const [rows] = await connection.query(
-      'SELECT COUNT(*) as pending_count FROM transactions WHERE user_id = ? AND status = "pending"',
-      [id]
-    );
-    
-    connection.release();
-    
-    const hasPendingTransactions = rows[0].pending_count > 0;
-    console.log('Transaction status check result:', { hasPendingTransactions });
-    
-    res.json({
-      success: !hasPendingTransactions
-    });
-  } catch (error) {
-    console.error('Error checking transaction status:', error);
-    res.status(500).json({
-      success: false,
-      error: 'Internal server error'
-    });
-  }
-});
-
 // Routes
 app.use('/admin', adminRoutes);
 app.use('/users', userRoutes);
