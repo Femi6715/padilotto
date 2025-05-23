@@ -49,7 +49,7 @@ router.get('/my-winnings', passport.authenticate('jwt', { session: false }), asy
             `SELECT t.*, g.game_type, g.draw_date, g.draw_time 
             FROM tickets t 
             JOIN games g ON t.game_id = g.id 
-            WHERE t.user_id = ? AND t.status = 'won' 
+            WHERE t.user_id = ? AND t.ticket_status = 'won' 
             ORDER BY t.created_at DESC`,
             [req.user.id]
         );
@@ -69,7 +69,7 @@ router.get('/:id', passport.authenticate('jwt', { session: false }), async (req,
             `SELECT t.*, g.game_type, g.draw_date, g.draw_time 
             FROM tickets t 
             JOIN games g ON t.game_id = g.id 
-            WHERE t.id = ? AND t.user_id = ? AND t.status = 'won'`,
+            WHERE t.id = ? AND t.user_id = ? AND t.ticket_status = 'won'`,
             [req.params.id, req.user.id]
         );
         connection.release();
@@ -96,7 +96,7 @@ router.get('/summary', passport.authenticate('jwt', { session: false }), async (
                 MAX(amount) as highest_win,
                 MIN(amount) as lowest_win
             FROM tickets 
-            WHERE user_id = ? AND status = 'won'`,
+            WHERE user_id = ? AND ticket_status = 'won'`,
             [req.user.id]
         );
         connection.release();

@@ -250,7 +250,7 @@ router.post('/newticket', passport.authenticate('jwt', { session: false }), asyn
   }
 });
 
-// Get winning tickets
+// Get winning tickets (public endpoint)
 router.get('/winning-tickets', async (req, res) => {
   try {
     const connection = await pool.getConnection();
@@ -284,7 +284,7 @@ router.post('/alltickets', passport.authenticate('jwt', { session: false }), asy
     
     const [rows] = await connection.query(
       `SELECT * FROM tickets 
-       WHERE user_id = ? 
+       WHERE user_id = ? AND ticket_status = 'won'
        ORDER BY time_stamp DESC`,
       [user_id]
     );
