@@ -184,7 +184,7 @@ router.post('/tickets', async (req, res) => {
 // Get all winning tickets without authentication
 router.get('/winning-tickets', async (req, res) => {
   try {
-    console.log('Fetching all winning tickets');
+    console.log('==== /winning-tickets endpoint hit - fetching ONLY won tickets ====');
     
     const connection = await pool.getConnection();
     
@@ -204,6 +204,7 @@ router.get('/winning-tickets', async (req, res) => {
     connection.release();
     
     console.log(`Found ${rows.length} winning tickets`);
+    console.log('First few tickets:', rows.slice(0, 3).map(t => ({ id: t.id, status: t.ticket_status })));
     
     res.json({ 
       success: true, 

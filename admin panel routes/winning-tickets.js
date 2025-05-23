@@ -9,6 +9,9 @@ const Game = require('../models/mysql/game');
 router.get('/', passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         const winningTickets = await WinningTicket.findAll({
+            where: {
+                ticket_status: 'won'
+            },
             include: [
                 {
                     model: User,
@@ -18,7 +21,8 @@ router.get('/', passport.authenticate('jwt', { session: false }), async (req, re
                     model: Game,
                     attributes: ['ticket_id', 'stake_amt', 'draw_date']
                 }
-            ]
+            ],
+            order: [['created_at', 'DESC']]
         });
         res.json({ success: true, winningTickets });
     } catch (error) {
@@ -31,7 +35,10 @@ router.get('/', passport.authenticate('jwt', { session: false }), async (req, re
 router.get('/user/:userId', passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         const winningTickets = await WinningTicket.findAll({
-            where: { user_id: req.params.userId },
+            where: { 
+                user_id: req.params.userId,
+                ticket_status: 'won'
+            },
             include: [
                 {
                     model: User,
@@ -41,7 +48,8 @@ router.get('/user/:userId', passport.authenticate('jwt', { session: false }), as
                     model: Game,
                     attributes: ['ticket_id', 'stake_amt', 'draw_date']
                 }
-            ]
+            ],
+            order: [['created_at', 'DESC']]
         });
         res.json({ success: true, winningTickets });
     } catch (error) {
@@ -59,7 +67,8 @@ router.post('/add', passport.authenticate('jwt', { session: false }), async (req
             game_id,
             user_id,
             amount_won,
-            draw_date
+            draw_date,
+            ticket_status: 'won'  // Ensure new tickets are created with won status
         });
 
         // Update user balance
@@ -78,11 +87,6 @@ router.post('/add', passport.authenticate('jwt', { session: false }), async (req
         console.error('Add winning ticket error:', error);
         res.status(500).json({ success: false, msg: 'Failed to add winning ticket' });
     }
-});
-
-// Basic route to check if the endpoint is working
-router.get('/', (req, res) => {
-    res.json({ success: true, msg: 'Winning tickets endpoint is working' });
 });
 
 module.exports = router;
