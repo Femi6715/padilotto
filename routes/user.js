@@ -76,6 +76,18 @@ router.post('/authenticate', async (req, res) => {
     
     const user = users[0];
     
+    // Check if user is banned
+    if (user.is_banned === 1) {
+      return res.json({ 
+        success: false, 
+        msg: 'Your account has been suspended. Please contact our customer support for assistance.',
+        isBanned: true
+      });
+    }
+    
+    // Explicitly set user as not banned if is_banned is 0 or null
+    user.is_banned = user.is_banned === 0 ? false : !!user.is_banned;
+    
     // Compare passwords
     const isMatch = await bcrypt.compare(password, user.password);
     
@@ -104,6 +116,7 @@ router.post('/authenticate', async (req, res) => {
           username: user.username,
           main_balance: user.main_balance,
           bonus: user.bonus,
+          is_banned: user.is_banned,
           createdAt: user.created_at,
           updatedAt: user.updated_at
         }

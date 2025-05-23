@@ -228,6 +228,7 @@ app.get('/api/simple/winning-tickets', async (req, res) => {
         u.surname
       FROM tickets t
       LEFT JOIN users u ON t.user_id = u.id
+      WHERE t.ticket_status = 'won'
       ORDER BY t.created_at DESC
     `);
     
@@ -322,39 +323,6 @@ app.use('/tickets', ticketRoutes);
 app.use('/winning-tickets', winningTicketRoutes);
 app.use('/transfer-recipients', transferRecipientRoutes);
 app.use('/game-categories', gameCategoryRoutes);
-
-// Public endpoint to get all tickets
-app.get('/api/tickets/all', async (req, res) => {
-  try {
-    console.log('Fetching all tickets');
-    
-    const connection = await pool.getConnection();
-    
-    // Get all tickets with user details
-    const [rows] = await connection.query(`
-      SELECT 
-        t.*,
-        u.username,
-        u.firstname,
-        u.surname
-      FROM tickets t
-      LEFT JOIN users u ON t.user_id = u.id
-      ORDER BY t.created_at DESC
-    `);
-    
-    connection.release();
-    
-    console.log(`Found ${rows.length} tickets`);
-    
-    res.json({ 
-      success: true, 
-      tickets: rows
-    });
-  } catch (error) {
-    console.error('Get all tickets error:', error);
-    res.status(500).json({ success: false, msg: 'Error fetching tickets' });
-  }
-});
 
 // Error handling middleware
 app.use((err, req, res, next) => {
