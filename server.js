@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const passport = require('passport');
@@ -213,9 +214,9 @@ app.post('/api/direct/tickets', async (req, res) => {
 });
 
 // Direct endpoint to get all winning tickets (no auth required)
-app.get('/api/simple/winning-tickets', async (req, res) => {
+app.get('/winning-tickets', async (req, res) => {
   try {
-    console.log('==== /api/simple/winning-tickets endpoint hit - fetching ONLY won tickets ====');
+    console.log('==== /winning-tickets endpoint hit - fetching ONLY won tickets ====');
     
     const connection = await pool.getConnection();
     
